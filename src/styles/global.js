@@ -8,6 +8,10 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box; 
 }
 
+#map {
+    width: 100vw;
+    height: 100vh;
+}
 
 `;
 

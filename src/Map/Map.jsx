@@ -1,33 +1,56 @@
-import ReactMapboxGl from "react-mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { customLayer } from "./config";
+import React, { useRef, useEffect, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import { Threebox } from "threebox-plugin";
+import "./Map.css";
 
-
-const style = "mapbox://styles/tmorino/ckclpzylp0vgp1iqsrp4asxt6";
-const mapStyle = {
-  height: "100vh",
-  width: "100vw",
-};
-
-const MapComponent = ReactMapboxGl({
-  accessToken:
-    "pk.eyJ1IjoidG1vcmlubyIsImEiOiJjazBzZHZjeWQwMWoyM2NtejlzcnMxd3FtIn0.I_Xcc1aJiN7hToGGjNy7ow",
-  // mapInstance: MapboxGL.Map,
-  antialias: true
-});
+mapboxgl.accessToken =
+  "pk.eyJ1IjoidG1vcmlubyIsImEiOiJjazBzZHZjeWQwMWoyM2NtejlzcnMxd3FtIn0.I_Xcc1aJiN7hToGGjNy7ow";
 
 const Map = () => {
+  const mapContainerRef = useRef(null);
+
+  const [lng, setLng] = useState(148.9819);
+  const [lat, setLat] = useState(-35.3981);
+  const [zoom, setZoom] = useState(18);
+
+  // Initialize map when component mounts
+  useEffect(() => {
+    const map = (window.map = new mapboxgl.Map({
+      container: mapContainerRef.current,
+      style: "mapbox://styles/tmorino/ckclpzylp0vgp1iqsrp4asxt6",
+      center: [lng, lat],
+      zoom: zoom,
+      pitch: 60,
+    }));
+    window.tb = new Threebox(map, map.getCanvas().getContext("webgl"), {
+      defaultLights: true,
+      enableSelectingObjects: true,
+      enableDraggingObjects: true,
+      enableRotatingObjects: true,
+      enableHelpTooltips: true,
+    });
+    // Add navigation control (the +/- zoom buttons)
+    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+
+    map.on("move", () => {
+      setLng(map.getCenter().lng.toFixed(4));
+      setLat(map.getCenter().lat.toFixed(4));
+      setZoom(map.getZoom().toFixed(2));
+    });
+
+    // Clean up on unmount
+    return () => map.remove();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <MapComponent
-      onStyleLoad={(map, evt) => {
-        map.addLayer(customLayer);
-      }}
-      zoom={[18]}
-      center={[148.9819, -35.3981]}
-      pitch={[60]}
-      style={style}
-      containerStyle={mapStyle}
-    />
+    <div>
+      <div className="sidebarStyle">
+        <div>
+          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+        </div>
+      </div>
+      <div className="map-container" ref={mapContainerRef} />
+    </div>
   );
 };
 
