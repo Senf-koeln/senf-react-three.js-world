@@ -27,6 +27,7 @@ const Map = () => {
       enableSelectingObjects: true,
       enableDraggingObjects: true,
       enableRotatingObjects: true,
+      enableTooltips: true,
       enableHelpTooltips: true,
     });
     // Add navigation control (the +/- zoom buttons)
