@@ -1,42 +1,45 @@
-import React, { useState } from "react";
+import React from "react";
+import ComponentsSidebar from "./ComponentsSidebar";
 import "./style.css";
 
 function UI() {
-  const [selectedObj, setSelectedObj] = useState();
-  const createModel = (id, obj, scale, rotation) => {
-    window.map.addLayer({
-      id: id || "custom_layer",
-      type: "custom",
-      renderingMode: "3d",
-      onAdd: function (map, gl) {
-        let options = {
-          type: "fbx",
-          obj: obj || "3d-models/cyclestand.fbx",
-          scale: scale || 50,
-          units: "meters",
-          rotation: rotation || { x: 90, y: 0, z: 0 }, //default rotation
-        };
-        window.tb.loadObj(options, (model) => {
-          model = model.setCoords([
-            map.transform.center.lng,
-            map.transform.center.lat,
-          ]);
-          model.addEventListener("SelectedChange", onSelectedChange, false);
-          window.tb.add(model);
-        });
-      },
-      render: function (gl, matrix) {
-        window.tb.update(); //update Threebox scene
-      },
-    });
-  };
-  function onSelectedChange(e) {
-    console.log(e.detail);
-    setSelectedObj(e.detail);
-  }
+  // const [selectedObj, setSelectedObj] = useState();
+  // const createModel = (id, obj, scale, rotation) => {
+  //   window.map.addLayer({
+  //     id: id || "custom_layer",
+  //     type: "custom",
+  //     renderingMode: "3d",
+  //     onAdd: function (map, gl) {
+  //       let options = {
+  //         type: "fbx",
+  //         obj: obj || "3d-models/cyclestand.fbx",
+  //         scale: scale || 1,
+  //         rotation: rotation || { x: 90, y: 0, z: 0 }, //default rotation,
+  //         anchor: "center",
+  //         bbox: false,
+  //         fixedZoom: 15,
+  //       };
+  //       window.tb.loadObj(options, (model) => {
+  //         model = model.setCoords([
+  //           map.transform.center.lng,
+  //           map.transform.center.lat,
+  //         ]);
+  //         model.addEventListener("SelectedChange", onSelectedChange, false);
+  //         window.tb.add(model);
+  //         setSelectedObj(model);
+  //       });
+  //     },
+  //     render: function (gl, matrix) {
+  //       window.tb.update(); //update Threebox scene
+  //     },
+  //   });
+  // };
+  // function onSelectedChange(e) {
+  //   setSelectedObj(e.detail);
+  // }
   return (
     <div className="container">
-      <div className="objects">
+      {/* <div className="objects">
         <button onClick={createModel}>Box</button>
       </div>
       <div className="placement">
@@ -80,16 +83,17 @@ function UI() {
         >
           Move Left
         </button>
-        {/* <button
+        <button
           onClick={() => {
-            window.tb.world.children[0].setFixedZoom(5000)
-            console.log(window.tb.world.children[0]);
-            // selectedObj.modelSize = 5000;
+            selectedObj.fixedZoom += 1;
+            selectedObj.setObjectScale(window.map.transform.scale);
+            window.tb.map.repaint = true;
           }}
         >
           Scale Up
-        </button> */}
-      </div>
+        </button>
+      </div> */}
+      <ComponentsSidebar componentsSidebarOpen={true} openInfoModal={true} />
     </div>
   );
 }

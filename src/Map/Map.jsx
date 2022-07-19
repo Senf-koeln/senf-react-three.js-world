@@ -21,6 +21,8 @@ const Map = () => {
       center: [lng, lat],
       zoom: zoom,
       pitch: 60,
+      bearing: -13,
+      scale: 1
     }));
     window.tb = new Threebox(map, map.getCanvas().getContext("webgl"), {
       defaultLights: true,
@@ -30,6 +32,7 @@ const Map = () => {
       enableTooltips: true,
       enableHelpTooltips: true,
     });
+    window.tb.altitudeStep = 1;
     // Add navigation control (the +/- zoom buttons)
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
