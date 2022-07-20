@@ -1,12 +1,7 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  List,
-  ObjectCard,
-  Tag,
-} from "senf-atomic-design-system";
+import { Box, List, ObjectCard, Tag } from "senf-atomic-design-system";
 import { ModelsData } from "../data/Models";
 
 const tags = [
@@ -114,6 +109,7 @@ const ModelsList = ({ spawnObject }) => {
       </Box>
       {models && (
         <List
+          listType="grid"
           CardType={ObjectCard}
           loading={false}
           handleButtonClick={spawnObject}

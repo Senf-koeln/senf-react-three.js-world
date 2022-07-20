@@ -18,28 +18,16 @@ import SurfacesIcon from "../assets/interface-icons/Menu-Icon_3.png";
 const Wrapper = styled.div`
   position: fixed;
   height: 100vh;
-  width: 400px;
+  width: 440px;
   background-color: #fed957;
   z-index: 9;
-  left: ${({
-    componentsSidebarOpen,
-    musicDomeDeleted,
-    openInfoModal,
-    openDrawContext,
-    openSaveModal,
-  }) =>
-    componentsSidebarOpen &&
-    musicDomeDeleted &&
-    !openInfoModal &&
-    !openDrawContext &&
-    !openSaveModal
-      ? "200px"
-      : "-600px"};
+  left: 0px;
   transition: 0.5s;
 `;
 const InnerWrapper = styled.div`
   overflow: scroll;
   height: calc(100vh - 150px);
+  margin: 20px 20px;
 `;
 
 const Circle = styled.div`
@@ -59,7 +47,6 @@ const ComponentsSidebar = ({
   componentsSidebarOpen,
   setComponentsSidebarOpen,
   startDrawingStreet,
-  musicDomeDeleted,
   openInfoModal,
   openDrawContext,
   openSaveModal,
@@ -78,12 +65,11 @@ const ComponentsSidebar = ({
   return (
     <Wrapper
       componentsSidebarOpen={true}
-      musicDomeDeleted={musicDomeDeleted}
       openInfoModal={openInfoModal}
       openDrawContext={openDrawContext}
       openSaveModal={openSaveModal}
     >
-      <Box width="calc(100% - 40px)" margin="20px">
+      <Box width="auto" margin="20px" justifyContent="center" gap="20px">
         <Box flexDirection="column" alignItems="center">
           <Circle active={order === 1} onClick={() => setOrder(1)}>
             <img src={ModelsIcon} alt="circle" width="50px" />
@@ -104,7 +90,7 @@ const ComponentsSidebar = ({
         </Box>
       </Box>
       <Divider
-        margin="20px 20px 0px 20px"
+        margin="20px 20px 2px 20px"
         width="calc(100% - 40px)"
         color="#f8f8f8"
       />
