@@ -64,7 +64,7 @@ const ComponentsSidebar = ({
 
   return (
     <Wrapper
-      componentsSidebarOpen={true}
+      componentsSidebarOpen={componentsSidebarOpen}
       openInfoModal={openInfoModal}
       openDrawContext={openDrawContext}
       openSaveModal={openSaveModal}

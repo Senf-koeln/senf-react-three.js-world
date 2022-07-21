@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, List, ObjectCard, Tag } from "senf-atomic-design-system";
 import { ModelsData } from "../data/Models";
+import { createModel } from "./UI";
 
 const tags = [
   { objectType: "Alle" },
@@ -27,14 +28,14 @@ const ModelsList = ({ spawnObject }) => {
 
   useEffect(() => {
     if (ModelsData) {
-      console.log(objectTypeSelected);
+      // console.log(objectTypeSelected);
       const NewModels = ModelsData.filter(({ objectType }) =>
         objectTypeSelected.includes(objectType)
       );
 
       NewModels.sort((a, b) => parseFloat(a.index) - parseFloat(b.index));
 
-      console.log(NewModels);
+      // console.log(NewModels);
 
       if (NewModels) {
         setModels(NewModels);
@@ -47,8 +48,8 @@ const ModelsList = ({ spawnObject }) => {
       // );
     }
 
-    console.log(models);
-  }, [objectTypeSelected, models]);
+    // console.log(models);
+  }, [objectTypeSelected]);
 
   const handleobjectTypeelector = (objectType) => {
     const index = objectTypeSelected.indexOf(objectType);
@@ -95,8 +96,9 @@ const ModelsList = ({ spawnObject }) => {
         alignItems="center"
         flexWrap="wrap"
       >
-        {tags.map(({ objectType }) => (
+        {tags.map(({ objectType }, i) => (
           <Tag
+            key={i}
             text={objectType}
             onClick={() => handleobjectTypeelector(objectType)}
             active={
@@ -110,7 +112,24 @@ const ModelsList = ({ spawnObject }) => {
       {models && (
         <List
           listType="grid"
-          CardType={ObjectCard}
+          CardType={() => (
+            <>
+              {models.map((data, i) => (
+                <ObjectCard
+                  key={i}
+                  data={data}
+                  handleButtonOpenCard={() =>
+                    createModel(
+                      `model ${Math.random() * 1000}`,
+                      data.modelPath,
+                      data.format,
+                      0.5
+                    )
+                  }
+                />
+              ))}
+            </>
+          )}
           loading={false}
           handleButtonClick={spawnObject}
           data={models}
@@ -119,5 +138,4 @@ const ModelsList = ({ spawnObject }) => {
     </React.Fragment>
   );
 };
-
 export default ModelsList;
